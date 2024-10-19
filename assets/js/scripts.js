@@ -97,6 +97,8 @@ shared.addEventListener('click', () => {
       message += `- ${item.childNodes[1].innerText}%0A`;
       
    }
+
+   message += 'https://castrobreno.github.io/quicklist/';
    // Abrir o link do WhatsApp em uma nova aba
    window.open(`https://wa.me/?text=${message}`, '_blank');
 
