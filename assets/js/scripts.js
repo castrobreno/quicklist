@@ -2,8 +2,15 @@ const form  = document.querySelector('.form-line');
 const quicklist = document.querySelector('.quicklist');
 const field = document.querySelector('.form-field');
 
+// Botão de compartilhamento via whatsapp
+const shared = document.querySelector('.main-shared');
+
 document.addEventListener("DOMContentLoaded", () => {
-   if(quicklist.childElementCount === 0){ messageInitial(); }
+   if(quicklist.childElementCount === 0){
+      messageInitial();
+      shared.setAttribute('disabled', true);
+   }
+   
 });
 
 
@@ -14,6 +21,7 @@ form.addEventListener("submit",
 
       if(quicklist.firstElementChild.firstElementChild.className.includes('initial')){
          quicklist.firstElementChild.remove();
+         shared.removeAttribute('disabled');
       }
 
       createItem();
@@ -56,7 +64,10 @@ function deleteItem(btn_delete){
    let li = btn_delete.parentElement;
    li.remove();
    console.log();
-   if(quicklist.childElementCount == 0){ messageInitial(); }
+   if(quicklist.childElementCount == 0){
+      messageInitial();
+      shared.setAttribute('disabled', true);
+   }
 }
 
 function messageInitial()
@@ -70,4 +81,23 @@ function messageInitial()
    });
    li.append(paragraph_initial);
    quicklist.append(li);
+
+
 }
+
+shared.addEventListener('click', () => {
+
+   let message = "Olá, estou compartilhando a minha lista de compras feita no QuickList%0A%0A";
+   
+   for(let i = 1; i <= quicklist.childElementCount; i++)
+   {
+      let item = quicklist.childNodes[i];
+      
+      //Construindo mensagem do whatsapp
+      message += `- ${item.childNodes[1].innerText}%0A`;
+      
+   }
+   // Abrir o link do WhatsApp em uma nova aba
+   window.open(`https://wa.me/?text=${message}`, '_blank');
+
+});
